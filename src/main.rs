@@ -12,7 +12,7 @@ struct Args {
 #[tokio::main]
 async fn main() {
 	let args = Args::from_args();
-	let mut client = Client::builder(
+	let client = Client::builder(
 		args.token,
 		GatewayIntents::default() | GatewayIntents::GUILD_MESSAGES,
 	)
