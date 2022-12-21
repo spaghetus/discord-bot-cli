@@ -1,3 +1,4 @@
+#![warn(clippy::pedantic)]
 use serenity::{prelude::GatewayIntents, Client};
 use structopt::StructOpt;
 use tokio::io::{stdin, stdout, AsyncWriteExt};
@@ -24,11 +25,6 @@ async fn main() {
 		.get_channel(args.channel)
 		.await
 		.expect("Failed to get channel.");
-	async fn prompt() {
-		let mut out = stdout();
-		out.write_all(b"> ").await.expect("Broken pipe");
-		out.flush().await.expect("Broken pipe");
-	}
 	prompt().await;
 	let mut stdin = BufReader::new(stdin()).lines();
 	while let Ok(Some(line)) = stdin.next_line().await {
@@ -39,4 +35,10 @@ async fn main() {
 			.expect("Failed to send");
 		prompt().await;
 	}
+}
+
+async fn prompt() {
+	let mut out = stdout();
+	out.write_all(b"> ").await.expect("Broken pipe");
+	out.flush().await.expect("Broken pipe");
 }
